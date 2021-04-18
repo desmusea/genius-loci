@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="🦻🏻">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <title>🐇</title>
+  </head>
+  <body>
+    <div class="textWrapper">
+      <h1 class="title">GENIUS LOCI</h1>
+      <article class="text"> 
+        En la mitología romana un genius loci es el espíritu protector de un lugar.
+        El grupo de jóvenes en residencia <a href="https://www.condeduquemadrid.es/actividades/rendija" target="_blank">rendija</a>, inpiradas por la obra «Línea rota de horizonte» de Carlos Garaicoa instalada en el patio central de Condeduque, 
+        propone esta representación del genius loci del Centro. Ideas animistas y tecnopaganas dibujan una personalidad posible de ese espíritu protector, que se materializa en un paisaje 
+        sonoro producido por <a href="https://www.instagram.com/__sancheese/" target="_blank">sancheese</a> (integrante del grupo en residencia) con audios registrados por el grupo en diferentes espacios del centro, sus voces y sonidos de sus cuerpos en movimiento por las salas.  
+      </article>
+    </div>
+    <a-scene vr-mode-ui="enterVRButton: #myEnterVRButton; enterARButton: #myEnterARButton">
+      <a-sky src="./media/condeduque.jpg" rotation="0 -130 0"></a-sky>
+      <a-sound src="./media/genius-loci.wav" id="sound" position="0 5 5" preload="auto" loop="true"></a-sound>
+      <a id="myEnterVRButton" href="#"></a>
+      <a id="myEnterARButton" href="#"></a>
+
+      <script>
+        const context = new AudioContext();
+        const entity = document.querySelector('[sound]');
+        function soundLoaded() {
+          entity.components.sound.playSound()
+        }
+
+        function unlockAudioContext(context) {
+          entity.components.sound.stopSound()
+          if (context.state !== "suspended") return;
+
+          const body = document.body;
+          const events = ["touchstart", "touchend", "mousedown", "keydown"];
+          events.forEach(e => body.addEventListener(e, unlock, false));
+
+          function unlock() {
+            context.resume().then(clean);
+          }
+
+          function clean() {
+            soundLoaded();
+            events.forEach(e => body.removeEventListener(e, unlock));
+          }
+        }
+
+        unlockAudioContext(context);
+
+      </script>
+  </body>
+</html>
