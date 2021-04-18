@@ -15,6 +15,10 @@ a {
  color: #f73f29;
 }
 
+span {
+  font-style: italic;
+}
+
 .title {
   font-size: 80px;
   margin: 0;
